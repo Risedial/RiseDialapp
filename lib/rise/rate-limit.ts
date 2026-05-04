@@ -3,10 +3,6 @@ import { supabaseServer } from '@/lib/supabase/server';
 const RATE_LIMIT_MAX = 60;
 const WINDOW_DURATION_MS = 60 * 60 * 1000; // 60 minutes in milliseconds
 
-/**
- * Finds the active rate limit window for a user, if one exists and has not expired.
- * A window is considered active if window_start is within the last 60 minutes.
- */
 async function getActiveWindow(
   userId: string
 ): Promise<{ id: string; message_count: number; window_start: string } | null> {
@@ -28,19 +24,6 @@ async function getActiveWindow(
   return data ?? null;
 }
 
-/**
- * checkRateLimit
- *
- * Checks whether the user is allowed to send another message within the current
- * 60-minute rolling window.
- *
- * - If no active window exists, the user is allowed (remaining = 60).
- * - If an active window exists, returns whether message_count < 60 and
- *   the number of remaining messages in the window.
- *
- * @param userId - The UUID of the user to check
- * @returns { allowed: boolean, remaining: number }
- */
 export async function checkRateLimit(
   userId: string
 ): Promise<{ allowed: boolean; remaining: number }> {
@@ -56,40 +39,12 @@ export async function checkRateLimit(
   return { allowed, remaining };
 }
 
-/**
- * recordMessage
- *
- * Increments the message_count for the user's current 60-minute window.
- * If no active window exists (either first message ever, or the previous window
- * has expired), a new window record is created with message_count = 1.
- *
- * Should be called after a message has been successfully sent.
- *
- * @param userId - The UUID of the user who sent the message
- */
 export async function recordMessage(userId: string): Promise<void> {
-  const window = await getActiveWindow(userId);
+  const { error } = await supabaseServer.rpc('increment_message_count', {
+    p_user_id: userId,
+  });
 
-  if (window) {
-    const { error } = await supabaseServer
-      .from('rate_limit_tracking')
-      .update({ message_count: window.message_count + 1 })
-      .eq('id', window.id);
-
-    if (error) {
-      throw new Error(`Failed to increment message_count: ${error.message}`);
-    }
-  } else {
-    const { error } = await supabaseServer
-      .from('rate_limit_tracking')
-      .insert({
-        user_id: userId,
-        window_start: new Date().toISOString(),
-        message_count: 1,
-      });
-
-    if (error) {
-      throw new Error(`Failed to create rate limit window: ${error.message}`);
-    }
+  if (error) {
+    throw new Error(`Failed to record message: ${error.message}`);
   }
 }
