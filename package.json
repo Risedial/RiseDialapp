@@ -9,29 +9,27 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@supabase/supabase-js": "2.x",
+    "bcryptjs": "2.x",
     "next": "14.x",
+    "next-pwa": "5.x",
+    "openai": "4.x",
     "react": "18.x",
     "react-dom": "18.x",
-    "typescript": "5.x",
+    "resend": "3.x",
+    "stripe": "^22.1.0",
     "tailwindcss": "3.x",
-    "next-pwa": "5.x",
-    "@supabase/supabase-js": "2.x",
-    "openai": "4.x",
-    "stripe": "14.x",
-    "bcryptjs": "2.x",
-    "jsonwebtoken": "9.x",
-    "zod": "3.x",
-    "resend": "3.x"
+    "typescript": "5.x",
+    "zod": "3.x"
   },
   "devDependencies": {
+    "@types/bcryptjs": "^2",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
-    "@types/bcryptjs": "^2",
-    "@types/jsonwebtoken": "^9",
     "autoprefixer": "^10",
-    "postcss": "^8",
     "eslint": "^8",
-    "eslint-config-next": "14.x"
+    "eslint-config-next": "14.x",
+    "postcss": "^8"
   }
 }
