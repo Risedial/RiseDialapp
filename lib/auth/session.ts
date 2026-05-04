@@ -1,6 +1,10 @@
 import { NextResponse } from "next/server";
 
-const JWT_SECRET = process.env.JWT_SECRET ?? "changeme-insecure-fallback";
+const _jwtSecret = process.env.JWT_SECRET;
+if (!_jwtSecret) {
+  throw new Error('JWT_SECRET environment variable is not set');
+}
+const JWT_SECRET = _jwtSecret;
 const COOKIE_NAME = "risedial_session";
 const MAX_AGE_SECONDS = 60 * 60 * 24 * 30; // 30 days
 
@@ -59,7 +63,7 @@ async function hmacVerify(
     false,
     ["verify"]
   );
-  return crypto.subtle.verify("HMAC", cryptoKey, sigBytes, dataBytes);
+  return crypto.subtle.verify("HMAC", cryptoKey, sigBytes.buffer as ArrayBuffer, dataBytes);
 }
 
 // ---------------------------------------------------------------------------
