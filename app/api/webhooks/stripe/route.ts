@@ -104,7 +104,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
         const basePriceId = getBasePriceId(subscription)
         const planType = getPlanTypeFromPriceId(basePriceId)
         const { hasPremiumMemory, premiumItemId } = detectPremiumItem(subscription)
-        const nextBillingDate = new Date(subscription.current_period_end * 1000).toISOString()
+        const nextBillingDate = new Date(subscription.items.data[0].current_period_end * 1000).toISOString()
 
         // Determine user_id from checkout session metadata
         const userId = session.metadata?.user_id
@@ -143,7 +143,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
 
         const planType = getPlanTypeFromPriceId(basePriceId)
         const { hasPremiumMemory, premiumItemId } = detectPremiumItem(subscription)
-        const nextBillingDate = new Date(subscription.current_period_end * 1000).toISOString()
+        const nextBillingDate = new Date(subscription.items.data[0].current_period_end * 1000).toISOString()
 
         await supabaseServer
           .from('users')
@@ -183,7 +183,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
         const customerId =
           typeof invoice.customer === 'string'
             ? invoice.customer
-            : (invoice.customer as Stripe.Customer)?.id ?? null
+            : invoice.customer?.id ?? null
 
         if (!customerId) break
 
