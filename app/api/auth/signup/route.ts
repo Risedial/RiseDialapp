@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
+import { createSession, setSessionCookie } from '@/lib/auth/session';
 import { getUserByEmail, createUser } from '@/lib/db/users';
 
 const signupSchema = z.object({
@@ -74,25 +74,9 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const jwtSecret = process.env.JWT_SECRET;
-    if (!jwtSecret) {
-      return NextResponse.json(
-        { success: false, error: 'An error occurred. Please try again.' },
-        { status: 500 }
-      );
-    }
-
-    const tokenPayload = {
-      user_id: newUser.id,
-      subscription_status: newUser.subscription_status,
-    };
-
     let sessionToken: string;
     try {
-      sessionToken = jwt.sign(tokenPayload, jwtSecret, {
-        algorithm: 'HS256',
-        expiresIn: '30d',
-      });
+      sessionToken = await createSession(newUser.id, newUser.subscription_status);
     } catch {
       return NextResponse.json(
         { success: false, error: 'An error occurred. Please try again.' },
@@ -102,13 +86,7 @@ export async function POST(request: NextRequest) {
 
     const response = NextResponse.json({ success: true }, { status: 201 });
 
-    response.cookies.set('risedial_session', sessionToken, {
-      httpOnly: true,
-      sameSite: 'strict',
-      secure: true,
-      maxAge: 60 * 60 * 24 * 30,
-      path: '/',
-    });
+    setSessionCookie(response, sessionToken);
 
     return response;
   } catch {

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
+import { createSession, setSessionCookie } from '@/lib/auth/session';
 import { getUserByEmail } from '@/lib/db/users';
 import { supabaseServer } from '@/lib/supabase/server';
 
@@ -59,21 +59,9 @@ export async function POST(request: NextRequest) {
         );
       }
 
-      const jwtSecret = process.env.JWT_SECRET;
-      if (!jwtSecret) {
-        return NextResponse.json(
-          { success: false, error: 'An error occurred. Please try again.' },
-          { status: 500 }
-        );
-      }
-
       let sessionToken: string;
       try {
-        sessionToken = jwt.sign(
-          { user_id: adminUser.id, email: adminUser.email, subscription_status: 'active' },
-          jwtSecret,
-          { algorithm: 'HS256', expiresIn: '30d' }
-        );
+        sessionToken = await createSession(adminUser.id, 'active');
       } catch {
         return NextResponse.json(
           { success: false, error: 'An error occurred. Please try again.' },
@@ -101,13 +89,7 @@ export async function POST(request: NextRequest) {
         { success: true, subscription_status: 'active', lastChatId },
         { status: 200 }
       );
-      adminResponse.cookies.set('risedial_session', sessionToken, {
-        httpOnly: true,
-        sameSite: 'strict',
-        secure: true,
-        maxAge: 60 * 60 * 24 * 30,
-        path: '/',
-      });
+      setSessionCookie(adminResponse, sessionToken);
       return adminResponse;
     }
     // ── End admin bypass ─────────────────────────────────────────────────────────
@@ -146,25 +128,9 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const jwtSecret = process.env.JWT_SECRET;
-    if (!jwtSecret) {
-      return NextResponse.json(
-        { success: false, error: 'An error occurred. Please try again.' },
-        { status: 500 }
-      );
-    }
-
-    const tokenPayload = {
-      user_id: user.id,
-      subscription_status: user.subscription_status,
-    };
-
     let sessionToken: string;
     try {
-      sessionToken = jwt.sign(tokenPayload, jwtSecret, {
-        algorithm: 'HS256',
-        expiresIn: '30d',
-      });
+      sessionToken = await createSession(user.id, user.subscription_status);
     } catch {
       return NextResponse.json(
         { success: false, error: 'An error occurred. Please try again.' },
@@ -193,13 +159,7 @@ export async function POST(request: NextRequest) {
       { status: 200 }
     );
 
-    response.cookies.set('risedial_session', sessionToken, {
-      httpOnly: true,
-      sameSite: 'strict',
-      secure: true,
-      maxAge: 60 * 60 * 24 * 30,
-      path: '/',
-    });
+    setSessionCookie(response, sessionToken);
 
     return response;
   } catch {
