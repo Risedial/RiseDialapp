@@ -1,12 +1,13 @@
 import Stripe from 'stripe'
 import { stripe } from '@/lib/stripe/config'
 import { supabaseServer } from '@/lib/supabase/server'
+import { env } from '@/lib/env'
 
 // ─── Helpers ───────────────────────────────────────────────────────────────────
 
 function getPlanTypeFromPriceId(priceId: string): 'monthly' | 'annual' {
-  if (priceId === process.env.STRIPE_PRICE_MONTHLY) return 'monthly'
-  if (priceId === process.env.STRIPE_PRICE_ANNUAL) return 'annual'
+  if (priceId === env.STRIPE_PRICE_MONTHLY) return 'monthly'
+  if (priceId === env.STRIPE_PRICE_ANNUAL) return 'annual'
   throw new Error(`Unknown base price ID: ${priceId}`)
 }
 
@@ -17,8 +18,8 @@ function detectPremiumItem(subscription: Stripe.Subscription): {
   for (const item of subscription.items.data) {
     const priceId = item.price.id
     if (
-      priceId === process.env.STRIPE_PRICE_PREMIUM_MONTHLY_ADDON ||
-      priceId === process.env.STRIPE_PRICE_PREMIUM_ANNUAL_ADDON
+      priceId === env.STRIPE_PRICE_PREMIUM_MONTHLY_ADDON ||
+      priceId === env.STRIPE_PRICE_PREMIUM_ANNUAL_ADDON
     ) {
       return { hasPremiumMemory: true, premiumItemId: item.id }
     }
@@ -30,8 +31,8 @@ function getBasePriceId(subscription: Stripe.Subscription): string {
   for (const item of subscription.items.data) {
     const priceId = item.price.id
     if (
-      priceId === process.env.STRIPE_PRICE_MONTHLY ||
-      priceId === process.env.STRIPE_PRICE_ANNUAL
+      priceId === env.STRIPE_PRICE_MONTHLY ||
+      priceId === env.STRIPE_PRICE_ANNUAL
     ) {
       return priceId
     }
@@ -161,7 +162,7 @@ export function verifyWebhookSignature(
   return stripe.webhooks.constructEvent(
     body,
     signature,
-    process.env.STRIPE_WEBHOOK_SECRET!
+    env.STRIPE_WEBHOOK_SECRET
   )
 }
 
