@@ -1,0 +1,181 @@
+/* ============================================================
+ * RiseDial Global Styles & Design System Foundation
+ * ============================================================ */
+
+/* ============================================================
+ * CSS CUSTOM PROPERTIES — Design Tokens
+ * Source of truth: context/app-design-tokens.css
+ * ============================================================ */
+:root {
+  /* ============================================================
+   * COLORS — Background & Surface
+   * ============================================================ */
+  --color-bg: #0a0a0f;
+  --color-surface: #13131a;
+  --color-surface-raised: #1a1a24;
+  --color-border: #2a2a38;
+
+  /* ============================================================
+   * COLORS — Text
+   * ============================================================ */
+  --color-text-primary: #e8e8f0;
+  --color-text-secondary: #8888a8;
+  --color-text-muted: #55556a;
+
+  /* ============================================================
+   * COLORS — Accent (Blue-Teal Gradient)
+   * ============================================================ */
+  --color-accent-start: #4f8ef7;
+  --color-accent-end: #2dd4bf;
+
+  /* ============================================================
+   * COLORS — Message Bubbles
+   * ============================================================ */
+  --color-user-bubble-start: #4f8ef7;
+  --color-user-bubble-end: #2dd4bf;
+  --color-rise-bubble: #13131a;
+
+  /* ============================================================
+   * COLORS — Status & Feedback
+   * ============================================================ */
+  --color-error: #f87171;
+  --color-success: #34d399;
+  --color-online: #34d399;
+  --color-disabled: #2a2a38;
+
+  /* ============================================================
+   * TYPOGRAPHY — Font Family
+   * ============================================================ */
+  --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+
+  /* ============================================================
+   * TYPOGRAPHY — Font Sizes
+   * ============================================================ */
+  --font-size-xs: 12px;
+  --font-size-sm: 14px;
+  --font-size-md: 16px;
+  --font-size-lg: 18px;
+  --font-size-xl: 22px;
+
+  /* ============================================================
+   * TYPOGRAPHY — Font Weights
+   * ============================================================ */
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+
+  /* ============================================================
+   * SPACING
+   * ============================================================ */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --spacing-2xl: 48px;
+
+  /* ============================================================
+   * TOUCH TARGET MINIMUM
+   * ============================================================ */
+  --tap-target-min: 44px;
+
+  /* ============================================================
+   * BORDER RADIUS
+   * ============================================================ */
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-bubble: 20px;
+
+  /* ============================================================
+   * TRANSITIONS
+   * ============================================================ */
+  --transition-fast: 150ms ease-out;
+  --transition-standard: 250ms ease-out;
+  --transition-slow: 350ms ease-out;
+
+  /* ============================================================
+   * Z-INDEX LAYERS
+   * ============================================================ */
+  --z-base: 0;
+  --z-sidebar: 100;
+  --z-overlay: 200;
+  --z-modal: 300;
+  --z-banner: 400;
+  --z-toast: 500;
+}
+
+/* ============================================================
+ * GLOBAL RESET
+ * ============================================================ */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ============================================================
+ * iOS VIEWPORT FIX
+ * ============================================================ */
+html {
+  height: 100%;
+  height: -webkit-fill-available;
+}
+
+/* ============================================================
+ * BODY STYLES
+ * ============================================================ */
+body {
+  background: var(--color-bg);
+  color: var(--color-text-primary);
+  font-family: var(--font-family);
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+  min-height: -webkit-fill-available;
+}
+
+/* ============================================================
+ * KEYFRAME ANIMATIONS
+ * ============================================================ */
+
+/* Typing indicator — 3 dots staggered scale/opacity bounce */
+@keyframes typing-dots {
+  0%, 60%, 100% {
+    transform: scale(0.6);
+    opacity: 0.4;
+  }
+  30% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Splash screen / element reveal — opacity fade in */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Sidebar entrance — slide in from left */
+@keyframes slide-in-left {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+/* Skeleton loading state — shimmer pulse */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+}

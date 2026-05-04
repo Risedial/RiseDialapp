@@ -1,0 +1,121 @@
+/* App Design Tokens
+ * Role: Source of truth for ALL CSS custom properties — colors, spacing, typography, radius, transitions, z-index
+ * Status: IMMUTABLE — do not modify during implementation phase
+ * Required by: Prompts 36–48
+ * Depends on: none
+ * Date: 2026-05-02
+ */
+
+:root {
+  /* ============================================================
+   * COLORS — Background & Surface
+   * ============================================================ */
+  --color-bg: #0a0a0f;
+  --color-surface: #13131a;
+  --color-surface-raised: #1a1a24;
+  --color-border: #2a2a38;
+
+  /* ============================================================
+   * COLORS — Text
+   * ============================================================ */
+  --color-text-primary: #e8e8f0;
+  --color-text-secondary: #8888a8;
+  --color-text-muted: #55556a;
+
+  /* ============================================================
+   * COLORS — Accent (Blue-Teal Gradient)
+   * ============================================================ */
+  --color-accent-start: #4f8ef7;
+  --color-accent-end: #2dd4bf;
+
+  /* ============================================================
+   * COLORS — Message Bubbles
+   * ============================================================ */
+  --color-user-bubble-start: #4f8ef7;
+  --color-user-bubble-end: #2dd4bf;
+  --color-rise-bubble: #13131a;
+
+  /* ============================================================
+   * COLORS — Status & Feedback
+   * ============================================================ */
+  --color-error: #f87171;
+  --color-success: #34d399;
+  --color-online: #34d399;
+  --color-disabled: #2a2a38;
+
+  /* ============================================================
+   * TYPOGRAPHY — Font Family
+   * ============================================================ */
+  --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+
+  /* ============================================================
+   * TYPOGRAPHY — Font Sizes
+   * ============================================================ */
+  --font-size-xs: 12px;
+  --font-size-sm: 14px;
+  --font-size-md: 16px;
+  --font-size-lg: 18px;
+  --font-size-xl: 22px;
+
+  /* ============================================================
+   * TYPOGRAPHY — Font Weights
+   * ============================================================ */
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+
+  /* ============================================================
+   * SPACING
+   * ============================================================ */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --spacing-2xl: 48px;
+
+  /* ============================================================
+   * TOUCH TARGET MINIMUM
+   * ============================================================ */
+  --tap-target-min: 44px;
+
+  /* ============================================================
+   * BORDER RADIUS
+   * ============================================================ */
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-bubble: 20px;
+
+  /* ============================================================
+   * TRANSITIONS
+   * ============================================================ */
+  --transition-fast: 150ms ease-out;
+  --transition-standard: 250ms ease-out;
+  --transition-slow: 350ms ease-out;
+
+  /* ============================================================
+   * Z-INDEX LAYERS
+   * ============================================================ */
+  --z-base: 0;
+  --z-sidebar: 100;
+  --z-overlay: 200;
+  --z-modal: 300;
+  --z-banner: 400;
+  --z-toast: 500;
+}
+
+/* ============================================================
+ * USAGE INSTRUCTIONS FOR SUB-AGENTS
+ * ============================================================
+ *
+ * 1. All color values must use the CSS custom properties above — never hardcode hex values
+ * 2. All spacing must use --spacing-* variables
+ * 3. All font sizes must use --font-size-* variables
+ * 4. All z-index values must use --z-* variables
+ * 5. Tap targets must be minimum var(--tap-target-min) = 44px
+ * 6. iOS safe areas: use env(safe-area-inset-bottom), env(safe-area-inset-top), etc.
+ * 7. User message gradient: background: linear-gradient(135deg, var(--color-user-bubble-start), var(--color-user-bubble-end))
+ * 8. Rise message background: background: var(--color-rise-bubble)
+ * 9. Accent text gradient: background: linear-gradient(135deg, var(--color-accent-start), var(--color-accent-end)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+ */

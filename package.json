@@ -1,0 +1,37 @@
+{
+  "name": "risedial",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "next": "14.x",
+    "react": "18.x",
+    "react-dom": "18.x",
+    "typescript": "5.x",
+    "tailwindcss": "3.x",
+    "next-pwa": "5.x",
+    "@supabase/supabase-js": "2.x",
+    "openai": "4.x",
+    "stripe": "14.x",
+    "bcryptjs": "2.x",
+    "jsonwebtoken": "9.x",
+    "zod": "3.x",
+    "resend": "3.x"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "@types/bcryptjs": "^2",
+    "@types/jsonwebtoken": "^9",
+    "autoprefixer": "^10",
+    "postcss": "^8",
+    "eslint": "^8",
+    "eslint-config-next": "14.x"
+  }
+}
