@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getUserFromRequest } from '@/lib/auth/getUser'
 import { getUserById, updateUser } from '@/lib/db/users'
 import { stripe, PLAN_PRICES } from '@/lib/stripe/config'
+import { env } from '@/lib/env'
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
   // Auth gate — read user from JWT cookie
@@ -87,8 +88,8 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     mode: 'subscription',
     customer: stripeCustomerId,
     line_items: lineItems,
-    success_url: `${process.env.NEXT_PUBLIC_APP_URL}/checkout-success?session_id={CHECKOUT_SESSION_ID}`,
-    cancel_url: `${process.env.NEXT_PUBLIC_APP_URL}/plan-selection`,
+    success_url: `${env.NEXT_PUBLIC_APP_URL}/checkout-success?session_id={CHECKOUT_SESSION_ID}`,
+    cancel_url: `${env.NEXT_PUBLIC_APP_URL}/plan-selection`,
     metadata: {
       user_id,
     },
