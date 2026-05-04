@@ -1,10 +1,7 @@
 import { NextResponse } from "next/server";
+import { env } from '@/lib/env';
 
-const _jwtSecret = process.env.JWT_SECRET;
-if (!_jwtSecret) {
-  throw new Error('JWT_SECRET environment variable is not set');
-}
-const JWT_SECRET = _jwtSecret;
+const JWT_SECRET = env.JWT_SECRET;
 const COOKIE_NAME = "risedial_session";
 const MAX_AGE_SECONDS = 60 * 60 * 24 * 30; // 30 days
 
