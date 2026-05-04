@@ -3,13 +3,6 @@ import Stripe from 'stripe'
 import { stripe } from '@/lib/stripe/config'
 import { supabaseServer } from '@/lib/supabase/server'
 
-// Disable Next.js body parsing — Stripe requires the raw body for signature verification
-export const config = {
-  api: {
-    bodyParser: false,
-  },
-}
-
 const PREMIUM_PRODUCT_ID = 'prod_URPiU0OHsZuXvk'
 
 function getPlanTypeFromPriceId(priceId: string): 'monthly' | 'annual' {
