@@ -3,6 +3,7 @@ import { z } from 'zod';
 import crypto from 'crypto';
 import { Resend } from 'resend';
 import { supabaseServer } from '@/lib/supabase/server';
+import { env } from '@/lib/env';
 
 const resetRequestSchema = z.object({
   email: z.string().email({ message: 'A valid email address is required.' }),
@@ -79,7 +80,7 @@ export async function POST(request: NextRequest) {
 
       // Send reset email via Resend
       const resendApiKey = process.env.RESEND_API_KEY;
-      const appBaseUrl = process.env.NEXT_PUBLIC_APP_URL ?? 'https://risedial.com';
+      const appBaseUrl = env.NEXT_PUBLIC_APP_URL;
 
       if (resendApiKey) {
         try {
