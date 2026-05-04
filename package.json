@@ -6,7 +6,11 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "test:e2e": "playwright test"
   },
   "dependencies": {
     "@supabase/supabase-js": "2.x",
@@ -23,13 +27,19 @@
     "zod": "3.x"
   },
   "devDependencies": {
+    "@playwright/test": "^1.44.0",
+    "@testing-library/jest-dom": "^6.4.6",
     "@types/bcryptjs": "^2",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "@vitejs/plugin-react": "^4.3.0",
+    "@vitest/coverage-v8": "^1.6.0",
     "autoprefixer": "^10",
     "eslint": "^8",
     "eslint-config-next": "14.x",
-    "postcss": "^8"
+    "jsdom": "^24.1.0",
+    "postcss": "^8",
+    "vitest": "^1.6.0"
   }
 }

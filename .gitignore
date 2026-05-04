@@ -18,3 +18,9 @@ dist/
 .DS_Store
 *.pem
 npm-debug.log*
+
+# test output
+coverage/
+playwright-report/
+test-results/
+e2e/fixtures/
