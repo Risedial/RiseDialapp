@@ -1,4 +1,4 @@
-import { createServerClient } from '@/lib/supabase/server';
+import { supabaseServer } from '@/lib/supabase/server';
 
 export interface CompressionTriggerResult {
   shouldCompress: boolean;
@@ -10,9 +10,7 @@ export async function checkCompressionTrigger(
   chatId: string,
   userId: string
 ): Promise<CompressionTriggerResult> {
-  const supabase = await createServerClient();
-
-  const { count, error } = await supabase
+  const { count, error } = await supabaseServer
     .from('messages')
     .select('*', { count: 'exact', head: true })
     .eq('chat_id', chatId)

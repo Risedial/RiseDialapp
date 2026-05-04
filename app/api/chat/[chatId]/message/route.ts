@@ -7,8 +7,8 @@ import { buildSystemMessage } from '@/lib/rise/system-prompt';
 import { buildMessageWindow } from '@/lib/rise/context-window';
 import { buildApiMessages } from '@/lib/rise/api-messages';
 import { checkRateLimit, recordRateLimitMessage } from '@/lib/rise/rate-limit';
-import { callRise } from '@/lib/rise/openai-client';
-import { executeCompressionAsync } from '@/lib/rise/compression';
+import { callRise } from '@/lib/openai/client';
+import { executeCompressionAsync } from '@/lib/memory/executor';
 
 const MAX_CONTENT_LENGTH = 4000;
 
