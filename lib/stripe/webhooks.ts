@@ -63,7 +63,7 @@ async function handleCheckoutSessionCompleted(
   const basePriceId = getBasePriceId(subscription)
   const planType = getPlanTypeFromPriceId(basePriceId)
   const { hasPremiumMemory, premiumItemId } = detectPremiumItem(subscription)
-  const nextBillingDate = new Date(subscription.current_period_end * 1000).toISOString()
+  const nextBillingDate = new Date(subscription.items.data[0].current_period_end * 1000).toISOString()
 
   const userId = session.metadata?.user_id
   if (!userId) return
@@ -99,7 +99,7 @@ async function handleSubscriptionUpdated(
 
   const planType = getPlanTypeFromPriceId(basePriceId)
   const { hasPremiumMemory, premiumItemId } = detectPremiumItem(subscription)
-  const nextBillingDate = new Date(subscription.current_period_end * 1000).toISOString()
+  const nextBillingDate = new Date(subscription.items.data[0].current_period_end * 1000).toISOString()
 
   await supabaseServer
     .from('users')
@@ -173,9 +173,31 @@ export function verifyWebhookSignature(
  *   - customer.subscription.deleted
  *   - invoice.payment_failed
  *
+ * Implements idempotency: skips processing if the event has already been
+ * recorded in webhook_events, otherwise pre-inserts before dispatching.
+ *
  * Unhandled event types are silently ignored.
  */
 export async function routeWebhookEvent(event: Stripe.Event): Promise<void> {
+  // ── Idempotency check ──────────────────────────────────────────────────────
+  const { data: existingEvent } = await supabaseServer
+    .from('webhook_events')
+    .select('id')
+    .eq('stripe_event_id', event.id)
+    .maybeSingle()
+
+  if (existingEvent) return
+
+  // ── Pre-insert event record ────────────────────────────────────────────────
+  await supabaseServer
+    .from('webhook_events')
+    .insert({
+      stripe_event_id: event.id,
+      event_type: event.type,
+      payload: event as unknown as Record<string, unknown>,
+    })
+
+  // ── Dispatch to handler ────────────────────────────────────────────────────
   switch (event.type) {
     case 'checkout.session.completed':
       await handleCheckoutSessionCompleted(
