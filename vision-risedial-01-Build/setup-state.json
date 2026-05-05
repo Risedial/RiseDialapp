@@ -1,0 +1,17 @@
+{
+  "schema_version": "1",
+  "project_slug": "vision-risedial-01",
+  "docs_dir": "C:\\Users\\Alexb\\Documents\\RiseDialapp\\vision-risedial-01",
+  "phases": {
+    "0_setup": "completed",
+    "1_map": "completed",
+    "2_ground": "completed",
+    "3_engineer": "completed",
+    "4_synthesize": "completed",
+    "5_write_context": "completed",
+    "6_orchestrate": "completed",
+    "7_runner": "completed"
+  },
+  "resume_from_phase": 8,
+  "session_count": 1
+}

@@ -1,0 +1,56 @@
+{
+  "total_steps": 6,
+  "steps": [
+    {
+      "id": "step-01-collect-verify-files",
+      "mode": "COLLECT",
+      "title": "Verify bug locations by reading exact lines from source files",
+      "reads": [
+        "app/api/chats/[chatId]/messages/route.ts",
+        "components/Sidebar.tsx"
+      ],
+      "writes": "context/verified-locations.md",
+      "verification": "context/verified-locations.md exists and confirms line 75 content and sidebar structure"
+    },
+    {
+      "id": "step-02-plan-message-order-fix",
+      "mode": "PLAN",
+      "title": "Write surgical plan for message order fix",
+      "reads": ["context/bug-locations.md", "context/verified-locations.md"],
+      "writes": "plans/02-message-order-plan.md",
+      "verification": "plan file names exact file, exact line, exact before/after"
+    },
+    {
+      "id": "step-03-execute-message-order-fix",
+      "mode": "EXECUTE",
+      "title": "Fix ascending sort order for chat messages API",
+      "reads": ["plans/02-message-order-plan.md"],
+      "writes": "app/api/chats/[chatId]/messages/route.ts",
+      "verification": "line 75 now reads `ascending: true`; `npx tsc --noEmit` exits 0"
+    },
+    {
+      "id": "step-04-plan-sidebar-settings-fix",
+      "mode": "PLAN",
+      "title": "Write plan to add settings navigation to sidebar footer",
+      "reads": ["context/bug-locations.md", "context/tech-facts.md", "context/verified-locations.md"],
+      "writes": "plans/04-sidebar-settings-plan.md",
+      "verification": "plan names exact insertion point in Sidebar.tsx, exact JSX to add"
+    },
+    {
+      "id": "step-05-execute-sidebar-settings-fix",
+      "mode": "EXECUTE",
+      "title": "Add settings footer to Sidebar component",
+      "reads": ["plans/04-sidebar-settings-plan.md"],
+      "writes": "components/Sidebar.tsx",
+      "verification": "Sidebar.tsx contains a button that navigates to /settings; `npx tsc --noEmit` exits 0"
+    },
+    {
+      "id": "step-06-commit-and-push",
+      "mode": "EXECUTE",
+      "title": "Commit all fixes and push to main",
+      "reads": ["orchestration/risedial-audit/state.json"],
+      "writes": "git commit + push",
+      "verification": "git log shows new commit; `git status` is clean"
+    }
+  ]
+}

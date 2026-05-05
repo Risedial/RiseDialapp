@@ -73,7 +73,7 @@ export async function GET(
     .from("messages")
     .select("id, role, content, created_at")
     .eq("chat_id", chatId)
-    .order("created_at", { ascending: false })
+    .order("created_at", { ascending: true })
     .limit(limit + 1);
 
   if (before) {
