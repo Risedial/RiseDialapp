@@ -1,14 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
-import jwt from 'jsonwebtoken';
+import { verifySession } from '@/lib/auth/session';
 
-interface JWTPayload {
-  user_id: string;
-  subscription_status: string;
-  iat?: number;
-  exp?: number;
-}
-
-export function middleware(request: NextRequest) {
+export async function middleware(request: NextRequest) {
   const sessionCookie = request.cookies.get('risedial_session');
 
   if (!sessionCookie || !sessionCookie.value) {
@@ -18,20 +11,9 @@ export function middleware(request: NextRequest) {
     );
   }
 
-  const jwtSecret = process.env.JWT_SECRET;
-  if (!jwtSecret) {
-    return NextResponse.json(
-      { error: 'Your session has expired. Sign in to continue.' },
-      { status: 401 }
-    );
-  }
+  const payload = await verifySession(sessionCookie.value);
 
-  let payload: JWTPayload;
-  try {
-    payload = jwt.verify(sessionCookie.value, jwtSecret, {
-      algorithms: ['HS256'],
-    }) as JWTPayload;
-  } catch {
+  if (!payload) {
     return NextResponse.json(
       { error: 'Your session has expired. Sign in to continue.' },
       { status: 401 }

@@ -6,7 +6,7 @@ import { getMemoryProfileByUserId } from '@/lib/db/memory';
 import { buildSystemMessage } from '@/lib/rise/system-prompt';
 import { buildMessageWindow } from '@/lib/rise/context-window';
 import { buildApiMessages } from '@/lib/rise/api-messages';
-import { checkRateLimit, recordRateLimitMessage } from '@/lib/rise/rate-limit';
+import { checkRateLimit, recordMessage } from '@/lib/rise/rate-limit';
 import { callRise } from '@/lib/openai/client';
 import { executeCompressionAsync } from '@/lib/memory/executor';
 
@@ -52,7 +52,7 @@ export async function POST(
   const hasPremium = user.has_premium_memory;
 
   // Rate limit check
-  const rateLimitAllowed = await checkRateLimit(userId);
+  const { allowed: rateLimitAllowed } = await checkRateLimit(userId);
   if (!rateLimitAllowed) {
     return NextResponse.json(
       { error: 'Rise needs a moment. Try again in a few seconds.' },
@@ -123,7 +123,7 @@ export async function POST(
   void executeCompressionAsync(chatId, userId, hasPremium);
 
   // Record this message in rate limit tracking
-  await recordRateLimitMessage(userId);
+  await recordMessage(userId);
 
   return NextResponse.json({
     message: assistantMessage,
