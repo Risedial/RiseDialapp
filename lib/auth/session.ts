@@ -1,7 +1,6 @@
-import { NextResponse } from "next/server";
-import { env } from '@/lib/env';
+import type { NextResponse } from "next/server";
 
-const JWT_SECRET = env.JWT_SECRET;
+const JWT_SECRET = process.env.JWT_SECRET ?? "";
 const COOKIE_NAME = "risedial_session";
 const MAX_AGE_SECONDS = 60 * 60 * 24 * 30; // 30 days
 
