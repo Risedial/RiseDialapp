@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { verifySession } from '@/lib/auth/session';
+import { verifySession } from '@/lib/auth/verify';
 
 export async function middleware(request: NextRequest) {
   const sessionCookie = request.cookies.get('risedial_session');
