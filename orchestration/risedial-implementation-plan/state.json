@@ -1,0 +1,52 @@
+{
+  "version": "1.0.0",
+  "bootstrap_complete": true,
+  "project": "risedial-implementation-plan",
+  "buildTarget": "C:\\Users\\Alexb\\Documents\\RiseDialapp",
+  "orchestration_dir": "C:\\Users\\Alexb\\Documents\\RiseDialapp\\orchestration\\risedial-implementation-plan",
+  "completedSteps": [
+    "step-01-collect-admin-context",
+    "step-02-plan-admin-fixes",
+    "step-03-execute-admin-fixes",
+    "step-04-collect-memory-context",
+    "step-05-plan-memory-fixes",
+    "step-06-execute-memory-fixes",
+    "step-07-collect-verify-output",
+    "step-08-plan-commit-push",
+    "step-09-execute-commit-push"
+  ],
+  "pendingSteps": [],
+  "artifacts": {
+    "filesWritten": [
+      "C:\\Users\\Alexb\\Documents\\RiseDialapp\\orchestration\\risedial-implementation-plan\\context\\admin-facts.md",
+      "C:\\Users\\Alexb\\Documents\\RiseDialapp\\orchestration\\risedial-implementation-plan\\context\\admin-locations.md",
+      "C:\\Users\\Alexb\\Documents\\RiseDialapp\\app\\api\\auth\\signin\\route.ts",
+      "C:\\Users\\Alexb\\Documents\\RiseDialapp\\orchestration\\risedial-implementation-plan\\context\\memory-facts.md",
+      "C:\\Users\\Alexb\\Documents\\RiseDialapp\\orchestration\\risedial-implementation-plan\\context\\memory-locations.md",
+      "C:\\Users\\Alexb\\Documents\\RiseDialapp\\lib\\db\\messages.ts",
+      "C:\\Users\\Alexb\\Documents\\RiseDialapp\\lib\\memory\\trigger.ts",
+      "C:\\Users\\Alexb\\Documents\\RiseDialapp\\lib\\memory\\compress.ts",
+      "C:\\Users\\Alexb\\Documents\\RiseDialapp\\lib\\memory\\patch.ts",
+      "C:\\Users\\Alexb\\Documents\\RiseDialapp\\lib\\memory\\executor.ts",
+      "C:\\Users\\Alexb\\Documents\\RiseDialapp\\orchestration\\risedial-implementation-plan\\context\\verify-facts.md",
+      "C:\\Users\\Alexb\\Documents\\RiseDialapp\\orchestration\\risedial-implementation-plan\\context\\verify-locations.md"
+    ],
+    "plansCreated": [
+      "C:\\Users\\Alexb\\Documents\\RiseDialapp\\orchestration\\risedial-implementation-plan\\plans\\02-plan-admin-fixes-plan.md",
+      "C:\\Users\\Alexb\\Documents\\RiseDialapp\\orchestration\\risedial-implementation-plan\\plans\\05-plan-memory-fixes-plan.md",
+      "C:\\Users\\Alexb\\Documents\\RiseDialapp\\orchestration\\risedial-implementation-plan\\plans\\08-plan-commit-push-plan.md"
+    ]
+  },
+  "flags": {
+    "adminContextCollected": true,
+    "adminPlanReady": true,
+    "adminFixesApplied": true,
+    "memoryContextCollected": true,
+    "memoryPlanReady": true,
+    "memoryFixesApplied": true,
+    "verifyOutputReady": true,
+    "commitPlanReady": true,
+    "allChangesCommitted": true
+  },
+  "knownItems": {}
+}

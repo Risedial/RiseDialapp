@@ -1,0 +1,103 @@
+{
+  "version": "1.0.0",
+  "system": "risedial-implementation-plan",
+  "total_steps": 9,
+  "session_budget": 6,
+  "steps": [
+    {
+      "id": "step-01-collect-admin-context",
+      "mode": "COLLECT",
+      "task": "Read app/api/auth/signin/route.ts and extract exact admin bypass block content for Plan B-2 edit",
+      "prompt_file": "C:\\Users\\Alexb\\Documents\\RiseDialapp\\orchestration\\risedial-implementation-plan\\prompts\\prompt-01.md",
+      "outputs": [
+        "C:\\Users\\Alexb\\Documents\\RiseDialapp\\orchestration\\risedial-implementation-plan\\context\\admin-facts.md",
+        "C:\\Users\\Alexb\\Documents\\RiseDialapp\\orchestration\\risedial-implementation-plan\\context\\admin-locations.md"
+      ],
+      "prerequisites": []
+    },
+    {
+      "id": "step-02-plan-admin-fixes",
+      "mode": "PLAN",
+      "task": "Write plan file for B-2 signin upsert edit with exact Before/After state",
+      "prompt_file": "C:\\Users\\Alexb\\Documents\\RiseDialapp\\orchestration\\risedial-implementation-plan\\prompts\\prompt-02.md",
+      "outputs": [
+        "C:\\Users\\Alexb\\Documents\\RiseDialapp\\orchestration\\risedial-implementation-plan\\plans\\02-plan-admin-fixes-plan.md"
+      ],
+      "prerequisites": ["adminContextCollected"]
+    },
+    {
+      "id": "step-03-execute-admin-fixes",
+      "mode": "EXECUTE",
+      "task": "Apply B-2 upsert edit to app/api/auth/signin/route.ts per plan",
+      "prompt_file": "C:\\Users\\Alexb\\Documents\\RiseDialapp\\orchestration\\risedial-implementation-plan\\prompts\\prompt-03.md",
+      "outputs": [
+        "C:\\Users\\Alexb\\Documents\\RiseDialapp\\app\\api\\auth\\signin\\route.ts"
+      ],
+      "prerequisites": ["adminPlanReady"]
+    },
+    {
+      "id": "step-04-collect-memory-context",
+      "mode": "COLLECT",
+      "task": "Read all 5 memory profiling files and extract exact old_string patterns for Plan A edits",
+      "prompt_file": "C:\\Users\\Alexb\\Documents\\RiseDialapp\\orchestration\\risedial-implementation-plan\\prompts\\prompt-04.md",
+      "outputs": [
+        "C:\\Users\\Alexb\\Documents\\RiseDialapp\\orchestration\\risedial-implementation-plan\\context\\memory-facts.md",
+        "C:\\Users\\Alexb\\Documents\\RiseDialapp\\orchestration\\risedial-implementation-plan\\context\\memory-locations.md"
+      ],
+      "prerequisites": ["adminFixesApplied"]
+    },
+    {
+      "id": "step-05-plan-memory-fixes",
+      "mode": "PLAN",
+      "task": "Write plan file for all 5 Plan A memory profiling edits with exact Before/After state",
+      "prompt_file": "C:\\Users\\Alexb\\Documents\\RiseDialapp\\orchestration\\risedial-implementation-plan\\prompts\\prompt-05.md",
+      "outputs": [
+        "C:\\Users\\Alexb\\Documents\\RiseDialapp\\orchestration\\risedial-implementation-plan\\plans\\05-plan-memory-fixes-plan.md"
+      ],
+      "prerequisites": ["memoryContextCollected"]
+    },
+    {
+      "id": "step-06-execute-memory-fixes",
+      "mode": "EXECUTE",
+      "task": "Apply all 5 Plan A edits to messages.ts trigger.ts compress.ts patch.ts executor.ts per plan",
+      "prompt_file": "C:\\Users\\Alexb\\Documents\\RiseDialapp\\orchestration\\risedial-implementation-plan\\prompts\\prompt-06.md",
+      "outputs": [
+        "C:\\Users\\Alexb\\Documents\\RiseDialapp\\lib\\db\\messages.ts",
+        "C:\\Users\\Alexb\\Documents\\RiseDialapp\\lib\\memory\\trigger.ts",
+        "C:\\Users\\Alexb\\Documents\\RiseDialapp\\lib\\memory\\compress.ts",
+        "C:\\Users\\Alexb\\Documents\\RiseDialapp\\lib\\memory\\patch.ts",
+        "C:\\Users\\Alexb\\Documents\\RiseDialapp\\lib\\memory\\executor.ts"
+      ],
+      "prerequisites": ["memoryPlanReady"]
+    },
+    {
+      "id": "step-07-collect-verify-output",
+      "mode": "COLLECT",
+      "task": "Run npx tsc --noEmit from project root and record exit code and output",
+      "prompt_file": "C:\\Users\\Alexb\\Documents\\RiseDialapp\\orchestration\\risedial-implementation-plan\\prompts\\prompt-07.md",
+      "outputs": [
+        "C:\\Users\\Alexb\\Documents\\RiseDialapp\\orchestration\\risedial-implementation-plan\\context\\verify-facts.md",
+        "C:\\Users\\Alexb\\Documents\\RiseDialapp\\orchestration\\risedial-implementation-plan\\context\\verify-locations.md"
+      ],
+      "prerequisites": ["memoryFixesApplied"]
+    },
+    {
+      "id": "step-08-plan-commit-push",
+      "mode": "PLAN",
+      "task": "Write plan file specifying git add commit and push commands and expected outcomes",
+      "prompt_file": "C:\\Users\\Alexb\\Documents\\RiseDialapp\\orchestration\\risedial-implementation-plan\\prompts\\prompt-08.md",
+      "outputs": [
+        "C:\\Users\\Alexb\\Documents\\RiseDialapp\\orchestration\\risedial-implementation-plan\\plans\\08-plan-commit-push-plan.md"
+      ],
+      "prerequisites": ["verifyOutputReady"]
+    },
+    {
+      "id": "step-09-execute-commit-push",
+      "mode": "EXECUTE",
+      "task": "Stage 6 files, commit with specified message, push to origin main",
+      "prompt_file": "C:\\Users\\Alexb\\Documents\\RiseDialapp\\orchestration\\risedial-implementation-plan\\prompts\\prompt-09.md",
+      "outputs": [],
+      "prerequisites": ["commitPlanReady"]
+    }
+  ]
+}
