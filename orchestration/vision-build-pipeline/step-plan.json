@@ -1,0 +1,110 @@
+{
+  "version": "1.0.0",
+  "system": "vision-build-pipeline",
+  "total_steps": 9,
+  "session_budget": 3,
+  "steps": [
+    {
+      "id": "step-01-collect-source-commands",
+      "mode": "COLLECT",
+      "task": "Read all 4 source command files (prep-vision, vision-to-docs, docs-to-build-v2, autonomous-system-builder1) and extract key facts",
+      "prompt_file": "C:\\Users\\Alexb\\Documents\\RiseDialapp\\orchestration\\vision-build-pipeline\\prompts\\prompt-01.md",
+      "outputs": [
+        "C:\\Users\\Alexb\\Documents\\RiseDialapp\\orchestration\\vision-build-pipeline\\context\\source-commands-facts.md",
+        "C:\\Users\\Alexb\\Documents\\RiseDialapp\\orchestration\\vision-build-pipeline\\context\\source-commands-locations.md"
+      ],
+      "prerequisites": [],
+      "sets_flag": "sourceCommandsCollected"
+    },
+    {
+      "id": "step-02-plan-analysis",
+      "mode": "PLAN",
+      "task": "Plan the overlap/conflict/gap analysis of the 4 source commands",
+      "prompt_file": "C:\\Users\\Alexb\\Documents\\RiseDialapp\\orchestration\\vision-build-pipeline\\prompts\\prompt-02.md",
+      "outputs": [
+        "C:\\Users\\Alexb\\Documents\\RiseDialapp\\orchestration\\vision-build-pipeline\\plans\\02-analysis-plan.md"
+      ],
+      "prerequisites": ["sourceCommandsCollected"],
+      "sets_flag": "analysisPlanDerived"
+    },
+    {
+      "id": "step-03-execute-analysis",
+      "mode": "EXECUTE",
+      "task": "Write the full analysis document (per-command analysis + overlap/conflict/gap maps)",
+      "prompt_file": "C:\\Users\\Alexb\\Documents\\RiseDialapp\\orchestration\\vision-build-pipeline\\prompts\\prompt-03.md",
+      "outputs": [
+        "C:\\Users\\Alexb\\Documents\\RiseDialapp\\orchestration\\vision-build-pipeline\\outputs\\analysis.md"
+      ],
+      "prerequisites": ["analysisPlanDerived"],
+      "sets_flag": "analysisDocWritten"
+    },
+    {
+      "id": "step-04-collect-analysis-results",
+      "mode": "COLLECT",
+      "task": "Read analysis.md and extract all cross-command design decisions needed for integration",
+      "prompt_file": "C:\\Users\\Alexb\\Documents\\RiseDialapp\\orchestration\\vision-build-pipeline\\prompts\\prompt-04.md",
+      "outputs": [
+        "C:\\Users\\Alexb\\Documents\\RiseDialapp\\orchestration\\vision-build-pipeline\\context\\analysis-facts.md",
+        "C:\\Users\\Alexb\\Documents\\RiseDialapp\\orchestration\\vision-build-pipeline\\context\\analysis-locations.md"
+      ],
+      "prerequisites": ["analysisDocWritten"],
+      "sets_flag": "analysisResultsCollected"
+    },
+    {
+      "id": "step-05-plan-integration",
+      "mode": "PLAN",
+      "task": "Plan the integrated design by answering all 7 design questions from the objective",
+      "prompt_file": "C:\\Users\\Alexb\\Documents\\RiseDialapp\\orchestration\\vision-build-pipeline\\prompts\\prompt-05.md",
+      "outputs": [
+        "C:\\Users\\Alexb\\Documents\\RiseDialapp\\orchestration\\vision-build-pipeline\\plans\\05-integration-plan.md"
+      ],
+      "prerequisites": ["analysisResultsCollected"],
+      "sets_flag": "integrationPlanDerived"
+    },
+    {
+      "id": "step-06-execute-integration",
+      "mode": "EXECUTE",
+      "task": "Write the integrated design document answering all 7 design questions with full detail",
+      "prompt_file": "C:\\Users\\Alexb\\Documents\\RiseDialapp\\orchestration\\vision-build-pipeline\\prompts\\prompt-06.md",
+      "outputs": [
+        "C:\\Users\\Alexb\\Documents\\RiseDialapp\\orchestration\\vision-build-pipeline\\outputs\\integrated-design.md"
+      ],
+      "prerequisites": ["integrationPlanDerived"],
+      "sets_flag": "integrationDocWritten"
+    },
+    {
+      "id": "step-07-collect-design-review",
+      "mode": "COLLECT",
+      "task": "Read integrated-design.md and extract every requirement for the vision-build-pipeline.md command file",
+      "prompt_file": "C:\\Users\\Alexb\\Documents\\RiseDialapp\\orchestration\\vision-build-pipeline\\prompts\\prompt-07.md",
+      "outputs": [
+        "C:\\Users\\Alexb\\Documents\\RiseDialapp\\orchestration\\vision-build-pipeline\\context\\design-facts.md",
+        "C:\\Users\\Alexb\\Documents\\RiseDialapp\\orchestration\\vision-build-pipeline\\context\\design-locations.md"
+      ],
+      "prerequisites": ["integrationDocWritten"],
+      "sets_flag": "designReviewCollected"
+    },
+    {
+      "id": "step-08-plan-command-file",
+      "mode": "PLAN",
+      "task": "Plan vision-build-pipeline.md section by section with exact content for each phase",
+      "prompt_file": "C:\\Users\\Alexb\\Documents\\RiseDialapp\\orchestration\\vision-build-pipeline\\prompts\\prompt-08.md",
+      "outputs": [
+        "C:\\Users\\Alexb\\Documents\\RiseDialapp\\orchestration\\vision-build-pipeline\\plans\\08-command-file-plan.md"
+      ],
+      "prerequisites": ["designReviewCollected"],
+      "sets_flag": "commandFilePlanDerived"
+    },
+    {
+      "id": "step-09-execute-command-file",
+      "mode": "EXECUTE",
+      "task": "Write C:\\Users\\Alexb\\Documents\\RiseDialapp\\.claude\\commands\\vision-build-pipeline.md and verify all 18 Step 5 checks pass",
+      "prompt_file": "C:\\Users\\Alexb\\Documents\\RiseDialapp\\orchestration\\vision-build-pipeline\\prompts\\prompt-09.md",
+      "outputs": [
+        "C:\\Users\\Alexb\\Documents\\RiseDialapp\\.claude\\commands\\vision-build-pipeline.md"
+      ],
+      "prerequisites": ["commandFilePlanDerived"],
+      "sets_flag": "allChangesCommitted"
+    }
+  ]
+}

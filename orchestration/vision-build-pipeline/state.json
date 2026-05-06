@@ -1,0 +1,35 @@
+{
+  "version": "1.0.0",
+  "bootstrap_complete": true,
+  "project": "vision-build-pipeline",
+  "buildTarget": "C:\\Users\\Alexb\\Documents\\RiseDialapp",
+  "orchestration_dir": "C:\\Users\\Alexb\\Documents\\RiseDialapp\\orchestration\\vision-build-pipeline",
+  "completedSteps": [],
+  "pendingSteps": [
+    "step-01-collect-source-commands",
+    "step-02-plan-analysis",
+    "step-03-execute-analysis",
+    "step-04-collect-analysis-results",
+    "step-05-plan-integration",
+    "step-06-execute-integration",
+    "step-07-collect-design-review",
+    "step-08-plan-command-file",
+    "step-09-execute-command-file"
+  ],
+  "artifacts": {
+    "filesWritten": [],
+    "plansCreated": []
+  },
+  "flags": {
+    "sourceCommandsCollected": false,
+    "analysisPlanDerived": false,
+    "analysisDocWritten": false,
+    "analysisResultsCollected": false,
+    "integrationPlanDerived": false,
+    "integrationDocWritten": false,
+    "designReviewCollected": false,
+    "commandFilePlanDerived": false,
+    "allChangesCommitted": false
+  },
+  "knownItems": {}
+}

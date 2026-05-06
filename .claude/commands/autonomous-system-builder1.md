@@ -133,8 +133,8 @@ TOTAL_STEPS
     C (13+ steps)  → 12: four COLLECT→PLAN→EXECUTE cycles
     D (infer)      → analyze OBJECTIVE complexity: simple (one domain, clear scope) → 6; moderate → 9; complex → 12
 
-SESSION_BUDGET = 3
-  This is a hard constant. Never derive from user input. Always exactly 3.
+SESSION_BUDGET = 6
+  This is a hard constant. Never derive from user input. Always exactly 6.
 
 STEP_IDS
   Rule: array of strings, format "step-NN-mode-task"
@@ -224,7 +224,7 @@ PROJECT_ROOT: [PROJECT_ROOT]
 ORCH_DIR: [ORCH_DIR]
 STATE_FILE: [STATE_FILE]
 TOTAL_STEPS: [TOTAL_STEPS]
-SESSION_BUDGET: 3
+SESSION_BUDGET: 6
 STEP_IDS: [STEP_IDS as JSON array — all values resolved, no brackets]
 FLAG_NAMES: [FLAG_NAMES as JSON array — all values resolved, no brackets]
 SYSTEM_TYPE: [SYSTEM_TYPE]
@@ -266,7 +266,7 @@ Write [ORCH_DIR]/step-plan.json:
   "version": "1.0.0",
   "system": "[SYSTEM_NAME]",
   "total_steps": [TOTAL_STEPS],
-  "session_budget": 3,
+  "session_budget": 6,
   "steps": [
     {
       "id": "[step-id]",
@@ -484,7 +484,7 @@ PLANS_DIR: [PLANS_DIR — absolute path, no brackets]
 CONTEXT_DIR: [CONTEXT_DIR — absolute path, no brackets]
 PROJECT_ROOT: [PROJECT_ROOT — absolute path, no brackets]
 TOTAL_STEPS: [TOTAL_STEPS — integer, no brackets]
-SESSION_BUDGET: 3
+SESSION_BUDGET: 6
 STEP_IDS: [STEP_IDS — full array with all values resolved, no brackets]
 SYSTEM_TYPE: [SYSTEM_TYPE]
 RUNNER_PATH: [RUNNER_PATH — absolute path, no brackets]
@@ -500,7 +500,7 @@ allowed-tools: Read Write Edit Bash Agent Glob Grep
 ---
 
 ## Configuration
-SESSION_BUDGET  = 3
+SESSION_BUDGET  = 6
 STATE_FILE      = [STATE_FILE — literal absolute path, no brackets]
 PROMPTS_DIR     = [PROMPTS_DIR — literal absolute path, no brackets]
 PLANS_DIR       = [PLANS_DIR — literal absolute path, no brackets]
@@ -518,7 +518,7 @@ Run this check before spawning ANY EXECUTE-mode step agent:
 1. Read STATE_FILE at [STATE_FILE — literal path]. Parse completedSteps and pendingSteps arrays.
 2. steps_this_session = 0
 3. If pendingSteps is empty: print Completion Block and stop.
-4. LOOP — repeat while pendingSteps is not empty AND steps_this_session < 3:
+4. LOOP — repeat while pendingSteps is not empty AND steps_this_session < 6:
    a. current_step = pendingSteps[0]
    b. Find the prompt file in PROMPTS_DIR whose Step ID header matches current_step exactly
    c. Read that prompt file in full
@@ -527,10 +527,10 @@ Run this check before spawning ANY EXECUTE-mode step agent:
    f. Wait for agent to complete
    g. Read STATE_FILE again. Verify current_step now appears in completedSteps. If it is still in pendingSteps: stop and report "Step [current_step] did not update state.json on completion. Manual inspection required."
    h. steps_this_session = steps_this_session + 1
-   i. Print: "✓ [current_step] complete — [steps_this_session]/3 this session, [completedSteps.length]/[TOTAL_STEPS — literal integer] total"
+   i. Print: "✓ [current_step] complete — [steps_this_session]/6 this session, [completedSteps.length]/[TOTAL_STEPS — literal integer] total"
 5. After loop ends:
    If pendingSteps is empty: print Completion Block
-   If steps_this_session = 3 and pendingSteps is not empty: print Next-Session Block
+   If steps_this_session = 6 and pendingSteps is not empty: print Next-Session Block
 
 ## Completion Block
 =====================================
@@ -542,7 +542,7 @@ Run this check before spawning ANY EXECUTE-mode step agent:
 
 ## Next-Session Block
 =====================================
-⏸ SESSION BUDGET REACHED (3/3 steps this session)
+⏸ SESSION BUDGET REACHED (6/6 steps this session)
 =====================================
 Progress: [completedSteps.length — evaluated at print time]/[TOTAL_STEPS] steps complete.
 Open a NEW chat and paste this exact command:
