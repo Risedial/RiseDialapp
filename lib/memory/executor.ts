@@ -68,8 +68,9 @@ export async function executeCompressionAsync(
         return;
       }
       if (existingProfile === null) {
-        console.error('[executeCompressionAsync] Patch trigger fired but no base profile exists for userId:', userId, '— skipping patch.');
-        return;
+        // No base profile — fall back to generating the initial profile
+        // instead of patching. This recovers from missed initial triggers.
+        triggerResult = { shouldCompress: true, isInitial: true, isPatch: false };
       }
     }
 
