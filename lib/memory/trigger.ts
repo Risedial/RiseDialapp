@@ -24,11 +24,11 @@ export async function checkCompressionTrigger(
 
   const userMessageCount = count ?? 0;
 
-  if (userMessageCount === 50) {
+  if (userMessageCount === 20) {
     return { shouldCompress: true, isInitial: true, isPatch: false };
   }
 
-  if (userMessageCount > 50 && (userMessageCount - 50) % 10 === 0) {
+  if (userMessageCount > 20 && (userMessageCount - 20) % 5 === 0) {
     return { shouldCompress: true, isInitial: false, isPatch: true };
   }
 
