@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { waitUntil } from '@vercel/functions';
 import { getUserFromRequest } from '@/lib/auth/getUser';
 import { getUserById } from '@/lib/db/users';
 import { createMessage, getMessagesByChatId } from '@/lib/db/messages';
@@ -119,8 +120,8 @@ export async function POST(
   // Persist the assistant response
   const assistantMessage = await createMessage(chatId, 'assistant', assistantContent);
 
-  // Trigger async compression check — fire and forget, non-blocking
-  void executeCompressionAsync(chatId, userId, hasPremium);
+  // Trigger async compression check — keep function alive until complete
+  waitUntil(executeCompressionAsync(chatId, userId, hasPremium));
 
   // Record this message in rate limit tracking
   await recordMessage(userId);

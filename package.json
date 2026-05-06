@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "@supabase/supabase-js": "2.x",
+    "@vercel/functions": "^3.5.0",
     "bcryptjs": "2.x",
     "next": "14.x",
     "next-pwa": "5.x",
