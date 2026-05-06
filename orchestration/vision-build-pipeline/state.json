@@ -4,10 +4,11 @@
   "project": "vision-build-pipeline",
   "buildTarget": "C:\\Users\\Alexb\\Documents\\RiseDialapp",
   "orchestration_dir": "C:\\Users\\Alexb\\Documents\\RiseDialapp\\orchestration\\vision-build-pipeline",
-  "completedSteps": [],
-  "pendingSteps": [
+  "completedSteps": [
     "step-01-collect-source-commands",
-    "step-02-plan-analysis",
+    "step-02-plan-analysis"
+  ],
+  "pendingSteps": [
     "step-03-execute-analysis",
     "step-04-collect-analysis-results",
     "step-05-plan-integration",
@@ -17,12 +18,17 @@
     "step-09-execute-command-file"
   ],
   "artifacts": {
-    "filesWritten": [],
-    "plansCreated": []
+    "filesWritten": [
+      "C:\\Users\\Alexb\\Documents\\RiseDialapp\\orchestration\\vision-build-pipeline\\context\\source-commands-facts.md",
+      "C:\\Users\\Alexb\\Documents\\RiseDialapp\\orchestration\\vision-build-pipeline\\context\\source-commands-locations.md"
+    ],
+    "plansCreated": [
+      "C:\\Users\\Alexb\\Documents\\RiseDialapp\\orchestration\\vision-build-pipeline\\plans\\02-analysis-plan.md"
+    ]
   },
   "flags": {
-    "sourceCommandsCollected": false,
-    "analysisPlanDerived": false,
+    "sourceCommandsCollected": true,
+    "analysisPlanDerived": true,
     "analysisDocWritten": false,
     "analysisResultsCollected": false,
     "integrationPlanDerived": false,

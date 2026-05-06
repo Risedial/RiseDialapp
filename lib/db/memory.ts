@@ -40,11 +40,13 @@ export async function createMemoryProfile(
   profileJson: object,
   modelUsed: string
 ): Promise<MemoryProfile> {
+  const sourceChats = (profileJson as Record<string, unknown>).sourceChats ?? [];
   const { data, error } = await supabaseServer
     .from('memory_profiles')
     .insert({
       user_id: userId,
       profile_json: profileJson,
+      source_chats: sourceChats,
       model_used: modelUsed,
     })
     .select('*')
@@ -78,11 +80,13 @@ export async function updateMemoryProfile(
   }
 
   const nextVersion = ((existing as { version: number }).version ?? 1) + 1;
+  const sourceChats = (profileJson as Record<string, unknown>).sourceChats ?? [];
 
   const { data, error } = await supabaseServer
     .from('memory_profiles')
     .update({
       profile_json: profileJson,
+      source_chats: sourceChats,
       model_used: modelUsed,
       version: nextVersion,
       last_updated_at: new Date().toISOString(),

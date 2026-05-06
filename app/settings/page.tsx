@@ -658,7 +658,7 @@ export default function SettingsPage() {
           setMemoryError('Could not load memory profile.');
           return;
         }
-        const data: MemoryProfile = await res.json();
+        const { memory: data }: { memory: MemoryProfile } = await res.json();
         setMemoryProfile(data);
       } catch {
         setMemoryError('Could not load memory profile.');
