@@ -1,6 +1,6 @@
 import 'server-only';
 
-import { getMessagesByChatId } from '../db/messages';
+import { getMessagesByUserId } from '../db/messages';
 import { createMemoryProfile } from '../db/memory';
 import { callCompression } from '../openai/client';
 import type { Message } from '../db/messages';
@@ -38,7 +38,7 @@ export async function generateInitialProfile(
   // -------------------------------------------------------------------------
   let messages: Message[];
   try {
-    messages = await getMessagesByChatId(chatId);
+    messages = await getMessagesByUserId(userId);
   } catch (err) {
     console.error('[generateInitialProfile] Failed to fetch messages:', err);
     return;

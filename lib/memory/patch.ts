@@ -1,6 +1,6 @@
 import 'server-only';
 
-import { getMessagesByChatId } from '../db/messages';
+import { getMessagesByUserId } from '../db/messages';
 import { getMemoryProfileByUserId, updateMemoryProfile } from '../db/memory';
 import { callCompression } from '../openai/client';
 import type { Message } from '../db/messages';
@@ -68,7 +68,7 @@ export async function patchMemoryProfile(
   // -------------------------------------------------------------------------
   let allMessages: Message[];
   try {
-    allMessages = await getMessagesByChatId(chatId);
+    allMessages = await getMessagesByUserId(userId);
   } catch (err) {
     console.error('[patchMemoryProfile] Failed to fetch messages for chatId:', chatId, err);
     return;

@@ -59,6 +59,16 @@ export async function POST(request: NextRequest) {
         );
       }
 
+      // Keep admin DB row in sync — Stripe webhooks can reset these fields
+      try {
+        await supabaseServer
+          .from('users')
+          .update({ subscription_status: 'active', has_premium_memory: true })
+          .eq('id', adminUser.id);
+      } catch {
+        // Non-fatal: session still created even if this update fails
+      }
+
       let sessionToken: string;
       try {
         sessionToken = await createSession(adminUser.id, 'active');

@@ -102,3 +102,37 @@ export async function countUserMessagesByChatId(chatId: string): Promise<number>
 
   return count ?? 0;
 }
+
+/**
+ * Fetch all messages across all chats belonging to a given user,
+ * ordered by creation date ascending.
+ * Used by memory compression functions to build cross-chat context.
+ */
+export async function getMessagesByUserId(userId: string): Promise<Message[]> {
+  const { data: chats, error: chatError } = await supabaseServer
+    .from('chats')
+    .select('id')
+    .eq('user_id', userId);
+
+  if (chatError) {
+    throw new Error(`getMessagesByUserId failed to fetch chats: ${chatError.message}`);
+  }
+
+  const chatIds = (chats ?? []).map((c: { id: string }) => c.id);
+
+  if (chatIds.length === 0) {
+    return [];
+  }
+
+  const { data, error } = await supabaseServer
+    .from('messages')
+    .select('*')
+    .in('chat_id', chatIds)
+    .order('created_at', { ascending: true });
+
+  if (error) {
+    throw new Error(`getMessagesByUserId failed: ${error.message}`);
+  }
+
+  return (data ?? []) as Message[];
+}

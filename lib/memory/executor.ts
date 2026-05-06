@@ -3,6 +3,7 @@ import 'server-only';
 import { checkCompressionTrigger } from './trigger';
 import { generateInitialProfile } from './compress';
 import { patchMemoryProfile } from './patch';
+import { getMemoryProfileByUserId } from '../db/memory';
 
 // ---------------------------------------------------------------------------
 // executeCompressionAsync
@@ -53,6 +54,23 @@ export async function executeCompressionAsync(
     // -----------------------------------------------------------------------
     if (!triggerResult.shouldCompress) {
       return;
+    }
+
+    // -----------------------------------------------------------------------
+    // Step 3b — Guard: for patch runs, verify an existing profile exists
+    // -----------------------------------------------------------------------
+    if (triggerResult.isPatch) {
+      let existingProfile: Awaited<ReturnType<typeof getMemoryProfileByUserId>>;
+      try {
+        existingProfile = await getMemoryProfileByUserId(userId);
+      } catch (err) {
+        console.error('[executeCompressionAsync] Failed to check existing memory profile for patch guard:', err);
+        return;
+      }
+      if (existingProfile === null) {
+        console.error('[executeCompressionAsync] Patch trigger fired but no base profile exists for userId:', userId, '— skipping patch.');
+        return;
+      }
     }
 
     // -----------------------------------------------------------------------
